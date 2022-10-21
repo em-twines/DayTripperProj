@@ -117,65 +117,96 @@ def get_request():
         print("Ok, maybe leter then!") 
         return    
 
+    else: 
+        print("I'm sorry, I didn't understand that request!")
+        return
+
+
     user_input_1 = input("Are you happy with these selections? (y/n)")
-    
-    while user_input_1 == "n":
-   
-        user_input_2 = []
-        user_input_2 = input('''Ok, let's try again! Which option(s) would you like to re-visit? 
-        (destination, restaurant, transportation, or entertainment?''')
-        user_input_2_split = tuple(set([]))
-        user_input_2_split = user_input_2.split(", ")
-        intersection = tuple(set(user_input_2_split) & set(options))
-        requested_changes = len(intersection)
-        
-        option_index = 0
-        while option_index < requested_changes:
-            if intersection[option_index] == "destination":
-                destination_choice = match_destination_index()
-                print({destination_choice})
-                option_index += 1
-                if option_index >= requested_changes: 
-                    break
-            if intersection[option_index] == "restaurant":
-                restaurant_choice = match_restaurant_index()
-                print({restaurant_choice})
-                option_index += 1
-                if option_index >= requested_changes: 
-                    break
-            if intersection[option_index] == "transportation":
-                transport_choice = match_transport_index()
-                print({transport_choice})
-                option_index += 1
-                if option_index >= requested_changes: 
-                    break
-            if intersection[option_index] == "entertainment":
-                entertainment_choice = match_entertainment_index()
-                print({entertainment_choice})
-                option_index += 1 
-                if option_index >= requested_changes: 
-                    break
-                
-                
-        user_input_1 = input("Are you heppy with your trip details now?")
 
     if user_input_1 == "y":
-
         user_input_1 = input(f'''Is your booking now complete? (y/n)
         {destination_choice}
         {restaurant_choice} 
         {transport_choice} 
         {entertainment_choice}''')
-            
+
+           
         if user_input_1 == "y":
             print("Wonderful! Have a great trip!")
 
-        else: 
-            print("Let's try again")
+    while user_input_1 == "n":
+       
+        while user_input_1 == "n":
+                
+            user_input_1 = []
+            user_input_1 = input('''Ok, let's try again! Which option(s) would you like to re-visit? 
+            (destination, restaurant, transportation, or entertainment?''')
+            user_input_1_split = tuple(set([]))
+            user_input_1_split = user_input_1.split(", ")
+            intersection = tuple(set(user_input_1_split) & set(options))
+            requested_changes = len(intersection)
+            
 
-    else: 
-        print("I'm sorry, I didn't understand that request!")
+            if len(intersection) == 0:
+                user_input_1 = input('''I'm sorry, I didn't understand that message! Let's try again. Which option(s) would you like to re-visit? 
+            (destination, restaurant, transportation, or entertainment?''')
+            
+            user_input_1_split = tuple(set([]))
+            user_input_1_split = user_input_1.split(", ")
+            intersection = tuple(set(user_input_1_split) & set(options))
+            requested_changes = len(intersection)
 
+            option_index = 0
+            while option_index < requested_changes:
+                if intersection[option_index] == "destination":
+                    destination_choice = match_destination_index()
+                    print(destination_choice)
+                    option_index += 1
+                    if option_index >= requested_changes: 
+                        break
+                if intersection[option_index] == "restaurant":
+                    restaurant_choice = match_restaurant_index()
+                    print(restaurant_choice)
+                    option_index += 1
+                    if option_index >= requested_changes: 
+                        break
+                if intersection[option_index] == "transportation":
+                    transport_choice = match_transport_index()
+                    print(transport_choice)
+                    option_index += 1
+                    if option_index >= requested_changes: 
+                        break
+                if intersection[option_index] == "entertainment":
+                    entertainment_choice = match_entertainment_index()
+                    print(entertainment_choice)
+                    option_index += 1 
+                    if option_index >= requested_changes: 
+                        break
+                        
+                        
+        user_input_1 = input("Are you happy with your trip details now?")
+
+        if user_input_1 == "y":
+
+            user_input_1 = input(f'''Is your booking now complete? (y/n)
+            {destination_choice}
+            {restaurant_choice} 
+            {transport_choice} 
+            {entertainment_choice}''')
+                
+        if user_input_1 == "y":
+            print("Wonderful! Have a great trip!")
+    
+    
+            
+
+
+
+
+
+
+    
             
 
 
