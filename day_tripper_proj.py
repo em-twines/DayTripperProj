@@ -166,10 +166,12 @@ def get_request():
         {restaurant_choice} 
         {transport_choice} 
         {entertainment_choice}''')
-        
+            
         if user_input_1 == "y":
             print("Wonderful! Have a great trip!")
 
+        else: 
+            print("Let's try again")
 
     else: 
         print("I'm sorry, I didn't understand that request!")
