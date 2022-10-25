@@ -13,7 +13,7 @@ import random
 
 destinations = ["Vietnam", "Paris", "San Sebastian", "London", "Dublin", "Prague", "Budapest"]
 restaurants = ["Nau Nau", "Josephine Chez Dumonet", "Sketch Lecure Room & Library", "Amelia", "Cafe Franz Kafka", "Onyx"]
-transportation = ["Airbus A330", "Boeing 767","Boeing 787", "Danube Delta Discovery", "Mediterranean Cruise", "Airbus A330, Malasian Cruise", "Boeing 787, Tokyo Cruise"]
+transportation = ["Airbus A330", "Boeing 767","Boeing 787", "Danube Delta Discovery", "Mediterranean Cruise", "Airbus A330, Malaysian Cruise", "Boeing 787, Tokyo Cruise"]
 entertainment_options = ["River Tour", "Fine Dining Tour", "Street Food Tour", "Scooter Tour of the City", "Amusement Park", "Historic Library Pass", "Museums Pass"]
 
 user_input_1 = ""     
@@ -99,10 +99,12 @@ def ok_later():
 
 def reply_else():
     print("I'm sorry, I didn't understand that message! Let's try again")
-    get_request(input("Welcome! Would you like to start your booking now? (y/n)"))
+    response = get_request(input("Welcome! Would you like to start your booking now? (y/n)"))
+    if response == "y":
+        choose_trip()
 
 def sorry():
-    print('''I'm sorry, I didn't understand that message! Let's try again. Which option(s) would you like to re-visit? 
+    print('''I'm sorry, I didn't understand that message! Let's try again. Which option(s) would you like to re-visit?  (Please separate your responses using commas)
         (destination, restaurant, transportation, or entertainment?''')
 
 def reply_let_us_try_again():
@@ -144,27 +146,6 @@ def if_no_match(intersection):
 def find_requested_changes(intersection):
     requested_changes = len(intersection)
     return requested_changes
-
-
-# def destination_subsequent_choosing():
-#     destination_choice = match_destination_index()
-#     print(destination_choice)
-#     return destination_choice
-
-# def restaurant_subsequent_choosing():
-#     restaurant_choice = match_restaurant_index()
-#     print(restaurant_choice)
-#     return restaurant_choice
-
-# def transportation_subsequent_choosing():
-#     transportation_choice = match_transport_index()
-#     print(transportation_choice)
-#     return transportation_choice
-
-# def entertainment_subsequent_choosing(): 
-#     entertainment_choice = match_entertainment_index()
-#     print(entertainment_choice)
-#     return entertainment_choice
 
 
 def return_matches(intersection1, int_requested_changes, final_list):
@@ -227,16 +208,18 @@ def return_matches(intersection1, int_requested_changes, final_list):
         final_list[position]== True
         position += 1
 
-
+    print(final_list)
     return final_list
 
 
-# def conglomerate():
-#     list_list = [destination_subsequent_choosing(), restaurant_subsequent_choosing(), transportation_subsequent_choosing(), entertainment_subsequent_choosing()]
-#     return list_list
+    
+def while_loop(response):
+    while response == "y":
+        final_list_aggregate = final_list
+        print(final_list_aggregate)
+        return final_list_aggregate
 
-def while_no(response):
-    while response == "n": 
+    while response == "n":
         desired_changes = reply_let_us_try_again()
         split_list_outcome = split_input(desired_changes)
         int_requested_changes = len(split_list_outcome)       
@@ -244,8 +227,6 @@ def while_no(response):
         int_changes = find_requested_changes(split_list_outcome)
         final_list_aggregate = return_matches(split_list_outcome, int_changes, final_list)
         response = "y"
-        print(final_list_aggregate)
-        return final_list_aggregate
 
 
 
@@ -266,10 +247,11 @@ def ask_booking_complete(final_list):
         reply_else()
 
 
-def ask_intitial_satisfaction(user_input, final_list):
+def ask_initial_satisfaction(user_input):
     if user_input == "y":
-        print(final_list)
-        ask_booking_complete(final_list)
+        # ask_booking_complete(final_list)
+        return "y"
+
     elif user_input == 'n':
         return "n"
     else:
@@ -277,33 +259,22 @@ def ask_intitial_satisfaction(user_input, final_list):
         
 
 
-def ask_final_satisfaction(user_input, final_list):
-    print(final_list)
-    if user_input == "y":
-        ask_booking_complete(user_input, final_list)
-    elif user_input == "n":
-        reply_let_us_try_again()
-        return "n"
-    else:
-        reply_else()
-
-
-
-answer_1 = get_request(input("Welcome! Would you like to start your booking now? (y/n)"))
+answer = get_request(input("Welcome! Would you like to start your booking now? (y/n)"))
 
 final_list = choose_trip()
 
-initial_response = ask_intitial_satisfaction(input("Are you happy with these selections? (y/n"), final_list)
+answer = ask_initial_satisfaction(input("Are you happy with these selections? (y/n)"))
 
-final_list = while_no(initial_response)
+while answer == "n":
+    final_aggregate = while_loop(answer)
 
-booking_complete_response = ask_booking_complete(final_list)
+    answer = ask_booking_complete(final_aggregate)
 
-final_list = while_no(booking_complete_response)
+    final_list = while_loop(answer)
 
-final_satisfaction_response = ask_final_satisfaction(input("Are you happy with your trip details now?"), final_list)
+    answer = ask_initial_satisfaction(input("Are you happy with these selections? (y/n)"))
 
-final_list = while_no(final_satisfaction_response)
+answer = ask_booking_complete(final_list)
 
 
 
