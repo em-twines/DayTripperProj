@@ -12,7 +12,7 @@
 import random
 
 destinations = ["Vietnam", "Paris", "San Sebastian", "London", "Dublin", "Prague", "Budapest"]
-restaurants = ["Nau Nau", "Josephine Chez Dumonet", "Sketch Lecure Room & Library", "Amelia", "Cafe Franz Kafka", "Onyx"]
+restaurants = ["Nau Nau", "Josephine Chez Dumonet", "Sketch Lecture Room & Library", "Amelia", "Cafe Franz Kafka", "Onyx"]
 transportation = ["Airbus A330", "Boeing 767","Boeing 787", "Danube Delta Discovery", "Mediterranean Cruise", "Airbus A330, Malaysian Cruise", "Boeing 787, Tokyo Cruise"]
 entertainment_options = ["River Tour", "Fine Dining Tour", "Street Food Tour", "Scooter Tour of the City", "Amusement Park", "Historic Library Pass", "Museums Pass"]
 
@@ -104,11 +104,10 @@ def reply_else():
         choose_trip()
 
 def sorry():
-    print('''I'm sorry, I didn't understand that message! Let's try again. Which option(s) would you like to re-visit?  (Please separate your responses using commas)
-        (destination, restaurant, transportation, or entertainment?''')
+    print('''I'm sorry, I didn't understand that message! ''')
 
 def reply_let_us_try_again():
-    input_1 = input('''Ok, let's try again! Which option(s) would you like to re-visit? (Please separate your responses using commas)
+    input_1 = input('''Let's try again! Which option(s) would you like to re-visit? (Please separate your responses using commas)
     (destination, restaurant, transportation, or entertainment?''')
     return input_1
 
@@ -213,22 +212,25 @@ def return_matches(intersection1, int_requested_changes, final_list):
 
 
     
-def while_loop(response):
+def while_loop(response, final_list):
     while response == "y":
         final_list_aggregate = final_list
         print(final_list_aggregate)
         return final_list_aggregate
-
-    while response == "n":
+    i = 1
+    while response == "n" and i > 0:
         desired_changes = reply_let_us_try_again()
         split_list_outcome = split_input(desired_changes)
-        int_requested_changes = len(split_list_outcome)       
-        if_no_match(int_requested_changes)
-        int_changes = find_requested_changes(split_list_outcome)
-        final_list_aggregate = return_matches(split_list_outcome, int_changes, final_list)
-        response = "y"
-
-
+        int_requested_changes = len(split_list_outcome)         
+        if int_requested_changes == 0:
+            sorry()
+            response == "n"
+            i = 1
+            # if_no_match(int_requested_changes)    
+        else:
+            int_changes = find_requested_changes(split_list_outcome)
+            final_list_aggregate = return_matches(split_list_outcome, int_changes, final_list)
+            response = ask_initial_satisfaction(input("Are you happy with these selections? (y/n)"))
 
 
 def reply_wonderful(final_list):
@@ -238,6 +240,7 @@ def reply_wonderful(final_list):
 
 
 def ask_booking_complete(final_list):
+    print(final_list)
     user_input = input('Is your booking now complete? (y/n)')
     if user_input == "y":
         reply_wonderful(final_list)
@@ -249,8 +252,8 @@ def ask_booking_complete(final_list):
 
 def ask_initial_satisfaction(user_input):
     if user_input == "y":
-        # ask_booking_complete(final_list)
-        return "y"
+        ask_booking_complete(final_list)
+        #return "y"
 
     elif user_input == 'n':
         return "n"
@@ -265,16 +268,15 @@ final_list = choose_trip()
 
 answer = ask_initial_satisfaction(input("Are you happy with these selections? (y/n)"))
 
+final_aggregate = while_loop(answer, final_list)
+
 while answer == "n":
-    final_aggregate = while_loop(answer)
+    final_aggregate = while_loop(answer, final_list)
+   
+ask_booking_complete(final_aggregate)
 
-    answer = ask_booking_complete(final_aggregate)
 
-    final_list = while_loop(answer)
 
-    answer = ask_initial_satisfaction(input("Are you happy with these selections? (y/n)"))
-
-answer = ask_booking_complete(final_list)
 
 
 
