@@ -157,7 +157,8 @@ def while_loop(response, final_list, destination_dict):
             final_list = final_list_tuple[0]
             destination_dict = final_list_tuple[1]
             
-            response = ask_initial_satisfaction(input("Are you happy with these selections? (y/n)"),final_list)
+            response = ask_initial_satisfaction(input("Are you happy with these selections? (y/n)"), final_list)
+            return final_list
 
 
 def reply_wonderful(final_list):
@@ -178,7 +179,7 @@ def ask_booking_complete(final_list):
         reply_let_us_try_again()
 
 
-def ask_initial_satisfaction(user_input,final_list):
+def ask_initial_satisfaction(user_input, final_list):
     if user_input == "y":
         ask_booking_complete(final_list)
         #return "y"
@@ -204,7 +205,7 @@ print(f'''
     You are going to {final_list [0]}, where you will dine at {final_list [1]}. 
     You'll get around {final_list [2]}, and you'll get to {final_list [3]}.''')
 
-answer = ask_initial_satisfaction(input("Are you happy with these selections? (y/n)"))
+answer = ask_initial_satisfaction(input("Are you happy with these selections? (y/n)"), final_list)
 
 final_list = while_loop(answer, final_list, destination_dict)
 
